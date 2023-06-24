@@ -10,16 +10,16 @@ namespace CrudWebApi.Controllers
     [ApiController]
     public class DepartmentController : Controller
     {
-        private readonly CollageDbContext _departmentDbContext;
-        public DepartmentController(CollageDbContext departmentDbContext)
+        private readonly CollageDbContext _collageDbContext;
+        public DepartmentController(CollageDbContext collageDbContext)
         {
-            _departmentDbContext = departmentDbContext;
+            _collageDbContext = collageDbContext;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllDepartments()
         {
-            var Emp = await _departmentDbContext.Departments.ToListAsync();
+            var Emp = await _collageDbContext.Departments.ToListAsync();
             return Ok(Emp);
 
         }
@@ -28,8 +28,8 @@ namespace CrudWebApi.Controllers
         public async Task<IActionResult> AddDepartments([FromBody] Department department)
         {
             department.Id = Guid.NewGuid();
-            await _departmentDbContext.Departments.AddAsync(department);
-            await _departmentDbContext.SaveChangesAsync();
+            await _collageDbContext.Departments.AddAsync(department);
+            await _collageDbContext.SaveChangesAsync();
             return Ok(department);
 
         }
@@ -37,25 +37,23 @@ namespace CrudWebApi.Controllers
         [Route("{id:Guid}")]
         public async Task<IActionResult> UpdateDepartment([FromRoute] Guid id, Department department)
         {
-            var emp = await _departmentDbContext.Departments.FindAsync(id);
-            if (department == null)
+            var dep = await _collageDbContext.Departments.FindAsync(id);
+            if (dep == null)
             {
                 return NotFound();
             }
-            emp.DepartmentName = department.DepartmentName;
-            emp.DepartmentStatus = department.DepartmentStatus;
-            
-            await _departmentDbContext.SaveChangesAsync();
+            _collageDbContext.Entry(dep).CurrentValues.SetValues(department);
+            await _collageDbContext.SaveChangesAsync();
 
-            return Ok(emp);
+
+            return Ok(department);
         }
-
 
         [HttpGet]
         [Route("{id:Guid}")]
         public async Task<IActionResult> GetDepartment([FromRoute] Guid id)
         {
-            var department = await _departmentDbContext.Departments.FirstOrDefaultAsync(x => x.Id == id);
+            var department = await _collageDbContext.Departments.FirstOrDefaultAsync(x => x.Id == id);
             if (department == null)
             {
                 return NotFound();
@@ -63,5 +61,23 @@ namespace CrudWebApi.Controllers
             return Ok(department);
 
         }
+
+
+        [HttpDelete]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> DeleteEmployees([FromRoute] Guid id)
+        {
+            var deprt = await _collageDbContext.Departments.FindAsync(id);
+            if (deprt == null)
+            {
+                return NotFound();
+            }
+            _collageDbContext.Departments.Remove(deprt);
+            await _collageDbContext.SaveChangesAsync();
+            Console.WriteLine(deprt);
+            return Ok(deprt.Id);
+
+        }
+
     }
 }

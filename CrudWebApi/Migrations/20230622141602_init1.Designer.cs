@@ -4,6 +4,7 @@ using CrudWebApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CrudWebApi.Migrations
 {
     [DbContext(typeof(CollageDbContext))]
-    partial class CollageDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230622141602_init1")]
+    partial class init1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,8 +34,8 @@ namespace CrudWebApi.Migrations
                     b.Property<string>("CourseDescription")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("CourseFee")
-                        .HasColumnType("bigint");
+                    b.Property<int>("CourseFee")
+                        .HasColumnType("int");
 
                     b.Property<bool>("CourseIsActive")
                         .HasColumnType("bit");
@@ -53,7 +56,7 @@ namespace CrudWebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("DepartmentHeadName")
+                    b.Property<string>("DepartmentHeadId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DepartmentName")
@@ -99,8 +102,8 @@ namespace CrudWebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("PaidAmount")
-                        .HasColumnType("bigint");
+                    b.Property<int>("PaidAmount")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("PaidDate")
                         .HasColumnType("datetime2");
@@ -124,8 +127,8 @@ namespace CrudWebApi.Migrations
                     b.Property<Guid>("DepartmentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<long>("PhoneNumber")
-                        .HasColumnType("bigint");
+                    b.Property<int>("PhoneNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("StudentDistrict")
                         .HasColumnType("nvarchar(max)");
@@ -181,8 +184,8 @@ namespace CrudWebApi.Migrations
                     b.Property<string>("TeacherName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("TeacherPhoneNumber")
-                        .HasColumnType("bigint");
+                    b.Property<int>("TeacherPhoneNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("TeacherPlace")
                         .HasColumnType("nvarchar(max)");

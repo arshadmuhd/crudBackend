@@ -4,6 +4,7 @@ using CrudWebApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CrudWebApi.Migrations
 {
     [DbContext(typeof(CollageDbContext))]
-    partial class CollageDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230623135115_Init4")]
+    partial class Init4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,7 +56,7 @@ namespace CrudWebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("DepartmentHeadName")
+                    b.Property<string>("DepartmentHeadId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DepartmentName")

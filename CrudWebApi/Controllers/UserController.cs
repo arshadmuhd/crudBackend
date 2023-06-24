@@ -15,7 +15,7 @@ namespace CrudWebApi.Controllers
         {
             _collageDbContext=collageDbContext;
         }
-/*
+
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -23,7 +23,7 @@ namespace CrudWebApi.Controllers
             return Ok(users);
 
         }
-/**/
+
         [HttpPost]
         public async Task<IActionResult> AddUser([FromBody] User user)
         {
@@ -32,6 +32,53 @@ namespace CrudWebApi.Controllers
             await _collageDbContext.SaveChangesAsync();
             return Ok(user);
         }
+
+        [HttpDelete]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> DeleteUser([FromRoute] Guid id)
+        {
+            var user = await _collageDbContext.Users.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            _collageDbContext.Users.Remove(user);
+            await _collageDbContext.SaveChangesAsync();
+            Console.WriteLine(user);
+            return Ok(user.Id);
+
+        }
+
+
+        [HttpGet]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> GetUser([FromRoute] Guid id)
+        {
+            var user = await _collageDbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+
+        }
+
+        [HttpPut]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> UpdateUsers([FromRoute] Guid id, User user)
+        {
+            var usr = await _collageDbContext.Users.FindAsync(id);
+            if (usr == null)
+            {
+                return NotFound();
+            }
+            _collageDbContext.Entry(usr).CurrentValues.SetValues(user);
+            await _collageDbContext.SaveChangesAsync();
+
+
+            return Ok(user);
+        }
+
 
 
     }

@@ -72,14 +72,19 @@ namespace CrudWebApi.Controllers
         public async Task<IActionResult> DeleteEmployees([FromRoute] Guid id)
         {
             var emp = await _employeeDbContext.Employees.FindAsync(id);
-            if (emp == null)
+            if (emp != null)
+            {
+                _employeeDbContext.Employees.Remove(emp);
+                await _employeeDbContext.SaveChangesAsync();
+                Console.WriteLine(emp);
+                return Ok(emp.Id);
+            }
+            else
             {
                 return NotFound();
             }
-            _employeeDbContext.Employees.Remove(emp);
-            await _employeeDbContext.SaveChangesAsync();
-            Console.WriteLine(emp);
-            return Ok(emp.Id);
+
+
 
         }
 
